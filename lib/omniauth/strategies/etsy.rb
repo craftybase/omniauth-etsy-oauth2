@@ -7,6 +7,7 @@ module OmniAuth
       option :name, :etsy
       option :pkce, true
       option :callback_url
+      option :headers
 
       option :setup, lambda { |env|
         strategy = env&.dig('omniauth.strategy')
@@ -34,6 +35,7 @@ module OmniAuth
         options.token_params['grant_type'] = 'authorization_code'
         options.token_params['client_id'] = options[:client_id]
         options.token_params.merge!(:headers => {'Authorization' => nil})
+        options.token_params.merge!(:headers => options.headers)
         super
       end
 
